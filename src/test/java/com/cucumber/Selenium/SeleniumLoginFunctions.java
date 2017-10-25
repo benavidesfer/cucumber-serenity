@@ -7,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class SeleniumFunctions {
+public class SeleniumLoginFunctions {
 	
 	
 public static WebDriver driver = null;
@@ -17,12 +17,19 @@ public static String baseURL = "https://github.com/";
 
 public void createDriver() throws MalformedURLException,
 InterruptedException {
-
+if (driver == null) {
 System.setProperty("webdriver.chrome.driver", "C:/eclipse-workspace/Cucumber/chromedriver.exe");
 driver = new ChromeDriver();
 driver.get(baseURL);
-
 waitVar = new WebDriverWait(driver, 15);
+}
+else {
+	driver.quit();
+	System.setProperty("webdriver.chrome.driver", "C:/eclipse-workspace/Cucumber/chromedriver.exe");
+	driver = new ChromeDriver();
+	driver.get(baseURL);
+	waitVar = new WebDriverWait(driver, 15);
+}
 }
 
 
@@ -49,4 +56,21 @@ waitVar.until(ExpectedConditions.presenceOfElementLocated(By
 .name("commit")));
 }
 
+public void typeuserandpass (){
+	
+driver.findElement(By.xpath("//*[@id='login_field']")).sendKeys("ferbenavides");
+driver.findElement(By.xpath("//*[@id=\'password\']")).sendKeys("notmypassword");
 }
+
+public void clickLogin () {
+
+driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/input[3]")).click();		
+}
+
+public void isloginerrormessageDisplayed() {
+	
+driver.findElement(By.xpath("//*[@id=\'js-flash-container\']/div/div")).isDisplayed();	
+	
+}
+}
+
